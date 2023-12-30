@@ -14,6 +14,7 @@
 		87F637202B40903D0054421F /* ScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F6371F2B40903D0054421F /* ScannerView.swift */; };
 		87F637222B4091CA0054421F /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F637212B4091CA0054421F /* CameraView.swift */; };
 		87F637242B40977C0054421F /* Permissions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F637232B40977C0054421F /* Permissions.swift */; };
+		87F77E422B40A9F800AC6751 /* QRScannerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F77E412B40A9F800AC6751 /* QRScannerDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		87F6371F2B40903D0054421F /* ScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScannerView.swift; sourceTree = "<group>"; };
 		87F637212B4091CA0054421F /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		87F637232B40977C0054421F /* Permissions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Permissions.swift; sourceTree = "<group>"; };
+		87F77E412B40A9F800AC6751 /* QRScannerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRScannerDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				87F6371F2B40903D0054421F /* ScannerView.swift */,
+				87F77E412B40A9F800AC6751 /* QRScannerDelegate.swift */,
 				87F637212B4091CA0054421F /* CameraView.swift */,
 			);
 			path = View;
@@ -160,6 +163,7 @@
 				87F637202B40903D0054421F /* ScannerView.swift in Sources */,
 				87F637122B40900C0054421F /* ContentView.swift in Sources */,
 				87F637102B40900C0054421F /* CameraScannerApp.swift in Sources */,
+				87F77E422B40A9F800AC6751 /* QRScannerDelegate.swift in Sources */,
 				87F637222B4091CA0054421F /* CameraView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -305,7 +309,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.1;
@@ -344,7 +348,7 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.1;

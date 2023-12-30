@@ -9,13 +9,17 @@ import AVKit
 import SwiftUI
 
 struct ScannerView: View {
+    
+    
     @State private var isScanning:Bool = false
     @State private var session: AVCaptureSession = .init()
     @State private var cameraPermission: Permissions = .idle
-    @State private var qrOutput: AVCaptureMetadataOutput = .init()
     
     @State private var errorMEssage: String = ""
     @State private var showError = false
+    @Environment(\.openURL) private var openURL
+    
+    @StateObject private var qrDelegate = QRScannerDelegate()
     
     let scanAnimation = Animation.easeInOut(duration: 0.85).repeatForever(autoreverses: true)
     
@@ -31,7 +35,7 @@ struct ScannerView: View {
             Spacer(minLength: 15)
             GeometryReader {
                 let size = $0.size
-//                CameraView(frameSize: size, session: $session)
+                CameraView(frameSize: CGSize(width: size.width, height: size.height), session: $session)
                 ZStack {
                     ForEach(1...4, id: \.self){ index in
                         let rotation = Double(index*90)
@@ -46,7 +50,7 @@ struct ScannerView: View {
                     Rectangle()
                         .fill(Color(.blue))
                         .frame(height: 2.5)
-                        .shadow(color: /*@START_MENU_TOKEN@*/.black/*@END_MENU_TOKEN@*/.opacity(0.8), radius: 8, x:0, y:15)
+                        .shadow(color: /*@START_MENU_TOKEN@*/.black/*@END_MENU_TOKEN@*/.opacity(0.8), radius: 8, x:0, y:isScanning ? 15 : -15)
                         .offset(y: isScanning ? size.width : 0)
                     
                 }
@@ -71,7 +75,16 @@ struct ScannerView: View {
             checkCameraPermission()
         }
         .alert(errorMEssage, isPresented: $showError) {
-            
+            if cameraPermission == .denied {
+                Button("Settings") {
+                    let settingsString = UIApplication.openSettingsURLString
+                    if let seettingsURL = URL(string: settingsString){
+                        openURL(seettingsURL)
+                    }
+                }
+                
+                Button("Cancel", role: .cancel){}
+            }
         }
     }
     
@@ -80,16 +93,61 @@ struct ScannerView: View {
             switch AVCaptureDevice.authorizationStatus(for: .video) {
             case .authorized:
                 cameraPermission = .approved
+                setupCamera()
             case .notDetermined:
                 if await AVCaptureDevice.requestAccess(for: .video) {
                     cameraPermission = .approved
+                    setupCamera()
                 } else {
                     cameraPermission = .denied
+                    presentError("Please provide access to camera for scanning codes")
                 }
             case .denied, .restricted:
                 cameraPermission = .denied
+                presentError("Please provide access to camera for scanning codes")
             default: break
             }
+        }
+    }
+    
+    func presentError(_ message: String) {
+        errorMEssage = message
+        showError.toggle()
+    }
+    
+    func setupCamera(){
+        do {
+            guard let device = AVCaptureDevice.DiscoverySession(
+                deviceTypes: [.builtInUltraWideCamera, .builtInWideAngleCamera],
+                mediaType: .video,
+                position: .back).devices.first
+            else {
+                presentError("unknown error")
+                return
+            }
+            
+            let input = try AVCaptureDeviceInput(device: device)
+            let qrOutput = AVCaptureMetadataOutput()
+
+            guard session.canAddInput(input), session.canAddOutput(qrOutput) else {
+                presentError("Unknown Error")
+                return
+            }
+            
+            session.beginConfiguration()
+            session.canAddInput(input)
+            
+            session.canAddOutput(qrOutput)
+            qrOutput.metadataObjectTypes = qrOutput.availableMetadataObjectTypes
+            
+            qrOutput.setMetadataObjectsDelegate(qrDelegate, queue: .main)
+            session.commitConfiguration()
+            
+            DispatchQueue.global(qos: .background).async {
+                session.startRunning()
+            }
+        } catch {
+            presentError(error.localizedDescription)
         }
     }
 }
