@@ -25,17 +25,21 @@ struct ScannerView: View {
     
     var body: some View {
         VStack (spacing: 8) {
+            
             Text("Place the QR code inside the area")
                 .font(.title3)
                 .padding(.top, 20)
-                .foregroundColor(.black.opacity(0.8))
+                .opacity(/*@START_MENU_TOKEN@*/0.8/*@END_MENU_TOKEN@*/)
             Text("Scanning with start automatically")
                 .font(.callout)
                 .foregroundColor(.gray)
-            Spacer(minLength: 15)
+            
+            Spacer(minLength: 0)
+            
             GeometryReader {
                 let size = $0.size
-                CameraView(frameSize: CGSize(width: size.width, height: size.height), session: $session)
+                CameraView(frameSize: CGSize(width: size.width, height: size.width), session: $session)
+                    .scaleEffect(0.97)
                 ZStack {
                     ForEach(1...4, id: \.self){ index in
                         let rotation = Double(index*90)
@@ -54,8 +58,6 @@ struct ScannerView: View {
                         .offset(y: isScanning ? size.width : 0)
                     
                 }
-                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, maxHeight: .infinity)
-                
             }
             .padding(.horizontal, 45)
             Spacer(minLength: 15)
@@ -135,9 +137,9 @@ struct ScannerView: View {
             }
             
             session.beginConfiguration()
-            session.canAddInput(input)
+            session.addInput(input)
             
-            session.canAddOutput(qrOutput)
+            session.addOutput(qrOutput)
             qrOutput.metadataObjectTypes = qrOutput.availableMetadataObjectTypes
             
             qrOutput.setMetadataObjectsDelegate(qrDelegate, queue: .main)
